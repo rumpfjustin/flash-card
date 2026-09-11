@@ -39,20 +39,8 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         };
         add_button.clicked.connect (add_deck);
 
-        var menu = new GLib.Menu ();
-        menu.append ("About Flash Cards", "app.about");
-        menu.append ("Quit", "app.quit");
-
-        var menu_button = new Gtk.MenuButton () {
-            icon_name = "open-menu-symbolic",
-            tooltip_text = "Main Menu",
-            menu_model = menu,
-            primary = true
-        };
-
         var header = new Adw.HeaderBar ();
         header.pack_start (add_button);
-        header.pack_end (menu_button);
 
         var empty_button = new Gtk.Button.with_label ("New Deck") {
             halign = Gtk.Align.CENTER,
