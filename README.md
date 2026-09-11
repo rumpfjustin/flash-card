@@ -43,6 +43,8 @@ meson compile -C build
 sudo meson install -C build       # install system-wide
 ```
 
+Or just run `./run.sh`, which does the setup/compile/launch steps above.
+
 ### Debian / Ubuntu package
 
 Build a `.deb` from a checkout:
@@ -52,6 +54,8 @@ sudo apt build-dep .              # or install the Build-Depends from debian/con
 dpkg-buildpackage -us -uc -b
 sudo apt install ../flash-card_0.1.0_*.deb
 ```
+
+Or just run `./build-deb.sh`, which does the same and lists the resulting `.deb` files.
 
 ## License
 
