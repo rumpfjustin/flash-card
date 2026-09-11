@@ -16,7 +16,7 @@ flash_card_sources = files(
   'card.vala',
   'deck.vala',
   'deck-manager.vala',
-  'deck-chip.vala',
+  'deck-row.vala',
   'card-row.vala',
   'test-page.vala',
 )
@@ -28,7 +28,6 @@ flash_card_deps = [
   gtk_dep,
   adwaita_dep,
   json_glib_dep,
-  dependency('pango'),
 ]
 
 executable('flash-card',

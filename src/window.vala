@@ -55,21 +55,17 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             child = empty_button
         };
 
-        var deck_flow = new Gtk.FlowBox () {
+        var deck_list = new Gtk.ListBox () {
             selection_mode = Gtk.SelectionMode.NONE,
-            homogeneous = false,
-            row_spacing = 8,
-            column_spacing = 8,
-            valign = Gtk.Align.START,
-            halign = Gtk.Align.FILL
+            css_classes = { "boxed-list" }
         };
-        deck_flow.bind_model (manager.decks, (item) => {
+        deck_list.bind_model (manager.decks, (item) => {
             var deck = (Deck) item;
-            var chip = new DeckChip (deck);
-            chip.test_requested.connect (() => start_test (deck));
-            chip.edit_requested.connect (() => open_deck (deck));
-            chip.delete_requested.connect (() => confirm_delete_deck (deck));
-            return chip;
+            var row = new DeckRow (deck);
+            row.test_requested.connect (() => start_test (deck));
+            row.edit_requested.connect (() => open_deck (deck));
+            row.delete_requested.connect (() => confirm_delete_deck (deck));
+            return row;
         });
 
         var list_page = new Gtk.ScrolledWindow () {
@@ -77,7 +73,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             vexpand = true,
             child = new Adw.Clamp () {
                 maximum_size = 520,
-                child = deck_flow,
+                child = deck_list,
                 margin_top = 12,
                 margin_bottom = 12,
                 margin_start = 12,
@@ -129,12 +125,6 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         };
         add_card_button.clicked.connect (() => edit_card (deck, null));
 
-        var test_button = new Gtk.Button.with_label ("Test") {
-            tooltip_text = "Draw random cards and quiz yourself",
-            css_classes = { "suggested-action" }
-        };
-        test_button.clicked.connect (() => start_test (deck));
-
         var deck_actions = new GLib.SimpleActionGroup ();
         var rename_action = new GLib.SimpleAction ("rename", null);
         rename_action.activate.connect (() => rename_deck (deck));
@@ -154,9 +144,8 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         };
 
         var header = new Adw.HeaderBar ();
-        header.pack_start (add_card_button);
         header.pack_end (menu_button);
-        header.pack_end (test_button);
+        header.pack_end (add_card_button);
 
         var empty_button = new Gtk.Button.with_label ("Add Card") {
             halign = Gtk.Align.CENTER,
@@ -254,7 +243,10 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         });
 
         dialog.present (this);
-        entry.grab_focus ();
+        GLib.Idle.add (() => {
+            entry.grab_focus ();
+            return false;
+        });
     }
 
     private void rename_deck (Deck deck) {
@@ -285,7 +277,10 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         });
 
         dialog.present (this);
-        entry.grab_focus ();
+        GLib.Idle.add (() => {
+            entry.grab_focus ();
+            return false;
+        });
     }
 
     private void confirm_delete_deck (Deck deck) {
@@ -376,7 +371,10 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         });
 
         dialog.present (this);
-        front_row.grab_focus ();
+        GLib.Idle.add (() => {
+            front_row.grab_focus ();
+            return false;
+        });
     }
 
     private void delete_card (Deck deck, Card card) {
