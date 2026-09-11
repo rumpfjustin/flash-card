@@ -55,7 +55,13 @@ dpkg-buildpackage -us -uc -b
 sudo apt install ../flash-card_0.1.0_*.deb
 ```
 
-Or just run `./build-deb.sh`, which does the same and lists the resulting `.deb` files.
+Or just run `./build-deb.sh`, which does the same and collects the resulting
+`.deb` files into `dist/`:
+
+```sh
+./build-deb.sh
+sudo apt install dist/flash-card_0.1.0_*.deb
+```
 
 ## License
 

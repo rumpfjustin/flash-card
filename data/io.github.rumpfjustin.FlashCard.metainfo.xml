@@ -29,6 +29,7 @@
 
   <url type="homepage">https://github.com/rumpfjustin/flash-card</url>
   <url type="bugtracker">https://github.com/rumpfjustin/flash-card/issues</url>
+  <url type="vcs-browser">https://github.com/rumpfjustin/flash-card</url>
 
   <content_rating type="oars-1.1"/>
 
