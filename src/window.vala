@@ -60,6 +60,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             vexpand = true,
             child = new Adw.Clamp () {
                 maximum_size = 520,
+                valign = Gtk.Align.START,
                 child = deck_list,
                 margin_top = 12,
                 margin_bottom = 12,
