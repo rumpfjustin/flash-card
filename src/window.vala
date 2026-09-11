@@ -50,7 +50,8 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             var deck = (Deck) item;
             var row = new DeckRow (deck);
             row.test_requested.connect (() => start_test (deck));
-            row.edit_requested.connect (() => open_deck (deck));
+            row.rename_requested.connect (() => rename_deck (deck));
+            row.open_requested.connect (() => open_deck (deck));
             row.delete_requested.connect (() => confirm_delete_deck (deck));
             return row;
         });
@@ -127,39 +128,13 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         };
         add_card_button.clicked.connect (() => edit_card (deck, null));
 
-        var deck_actions = new GLib.SimpleActionGroup ();
-        var rename_action = new GLib.SimpleAction ("rename", null);
-        rename_action.activate.connect (() => rename_deck (deck));
-        deck_actions.add_action (rename_action);
-        var delete_action = new GLib.SimpleAction ("delete", null);
-        delete_action.activate.connect (() => confirm_delete_deck (deck));
-        deck_actions.add_action (delete_action);
-
-        var deck_menu = new GLib.Menu ();
-        deck_menu.append ("Rename Deck…", "deck.rename");
-        deck_menu.append ("Delete Deck…", "deck.delete");
-
-        var menu_button = new Gtk.MenuButton () {
-            icon_name = "view-more-symbolic",
-            tooltip_text = "Deck Options",
-            menu_model = deck_menu
-        };
-
         var header = new Adw.HeaderBar ();
-        header.pack_end (menu_button);
         header.pack_end (add_card_button);
-
-        var empty_button = new Gtk.Button.with_label ("Add Card") {
-            halign = Gtk.Align.CENTER,
-            css_classes = { "pill", "suggested-action" }
-        };
-        empty_button.clicked.connect (() => edit_card (deck, null));
 
         var empty_page = new Adw.StatusPage () {
             icon_name = "document-new-symbolic",
             title = "No Cards",
-            description = "Add a card with a front and a back.",
-            child = empty_button
+            description = "Use the + button above to add a card."
         };
 
         var card_list = new Gtk.ListBox () {
@@ -203,7 +178,6 @@ public class FlashCard.Window : Adw.ApplicationWindow {
 
         var page = new Adw.NavigationPage (toolbar_view, deck.name);
         deck.bind_property ("name", page, "title", BindingFlags.SYNC_CREATE);
-        page.insert_action_group ("deck", deck_actions);
         page.destroy.connect (() => {
             deck.cards.disconnect (visibility_handler);
         });
