@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.rumpfjustin.FlashCard</id>
+
+  <name>Flash Cards</name>
+  <summary>Study with two-sided flash cards</summary>
+
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+
+  <description>
+    <p>
+      Flash Cards is a small GNOME application for building decks of two-sided
+      flash cards and quizzing yourself on them.
+    </p>
+    <ul>
+      <li>Create as many decks as you like, each with its own name</li>
+      <li>Add, edit and delete cards with a front and a back</li>
+      <li>Test yourself: the app draws a random card and reveals the answer on demand</li>
+      <li>Every deck is stored as a plain JSON file for easy backup and editing</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.rumpfjustin.FlashCard.desktop</launchable>
+
+  <developer id="io.github.rumpfjustin">
+    <name>Justin Rumpf</name>
+  </developer>
+
+  <url type="homepage">https://github.com/rumpfjustin/flash-card</url>
+  <url type="bugtracker">https://github.com/rumpfjustin/flash-card/issues</url>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-09-10">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Flash Cards
+GenericName=Flash Card Study Tool
+Comment=Create decks of two-sided flash cards and quiz yourself
+Exec=flash-card
+Icon=io.github.rumpfjustin.FlashCard
+Terminal=false
+Categories=Education;GTK;
+Keywords=flashcard;flash card;study;revision;quiz;memorize;deck;
+StartupNotify=true

@@ -1,0 +1,18 @@
+# Meson / Ninja build output
+/build/
+/_build/
+/builddir/
+
+# Debian packaging build artifacts
+/debian/.debhelper/
+/debian/flash-card/
+/debian/files
+/debian/debhelper-build-stamp
+/debian/*.substvars
+/debian/*.log
+/obj-*/
+
+# Editor / OS cruft
+*~
+*.swp
+.DS_Store

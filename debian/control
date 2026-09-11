@@ -1,0 +1,31 @@
+Source: flash-card
+Section: education
+Priority: optional
+Maintainer: Justin Rumpf <rumpf.justin@gmail.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ meson (>= 0.62),
+ ninja-build,
+ valac,
+ pkg-config,
+ libglib2.0-dev (>= 2.66),
+ libgtk-4-dev (>= 4.10),
+ libadwaita-1-dev (>= 1.5),
+ libjson-glib-dev (>= 1.6),
+Standards-Version: 4.7.0
+Homepage: https://github.com/rumpfjustin/flash-card
+Rules-Requires-Root: no
+
+Package: flash-card
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: study tool for two-sided flash cards
+ Flash Cards is a small GNOME/GTK application for creating decks of
+ two-sided flash cards and quizzing yourself on them.
+ .
+ Each deck is a named collection of cards with a front and a back, stored
+ as a plain JSON file so decks are easy to back up, sync or edit by hand.
+ The self-test mode draws a random card from a deck and reveals the answer
+ on demand.
