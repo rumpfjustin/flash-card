@@ -11,7 +11,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
 
     construct {
         this.title = "Flash Cards";
-        this.set_default_size (420, 640);
+        this.set_default_size (630, 640);
         this.width_request = 320;
         this.height_request = 400;
 
@@ -155,6 +155,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             vexpand = true,
             child = new Adw.Clamp () {
                 maximum_size = 520,
+                valign = Gtk.Align.START,
                 child = card_list,
                 margin_top = 12,
                 margin_bottom = 12,
