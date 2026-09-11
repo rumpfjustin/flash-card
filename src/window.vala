@@ -34,25 +34,12 @@ public class FlashCard.Window : Adw.ApplicationWindow {
      * ------------------------------------------------------------------ */
 
     private Adw.NavigationPage build_decks_page () {
-        var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
-            tooltip_text = "New Deck"
-        };
-        add_button.clicked.connect (add_deck);
-
         var header = new Adw.HeaderBar ();
-        header.pack_end (add_button);
-
-        var empty_button = new Gtk.Button.with_label ("New Deck") {
-            halign = Gtk.Align.CENTER,
-            css_classes = { "pill", "suggested-action" }
-        };
-        empty_button.clicked.connect (add_deck);
 
         var empty_page = new Adw.StatusPage () {
             icon_name = "view-list-symbolic",
             title = "No Decks",
-            description = "Create a deck to start adding flash cards.",
-            child = empty_button
+            description = "Use the button below to create your first deck."
         };
 
         var deck_list = new Gtk.ListBox () {
@@ -89,9 +76,23 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             update_decks_visibility ();
         });
 
+        var add_deck_button = new Gtk.Button.with_label ("New Deck") {
+            halign = Gtk.Align.CENTER,
+            css_classes = { "pill", "suggested-action" }
+        };
+        add_deck_button.clicked.connect (add_deck);
+
+        var bottom_bar = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+            halign = Gtk.Align.CENTER,
+            margin_top = 12,
+            margin_bottom = 12
+        };
+        bottom_bar.append (add_deck_button);
+
         var toolbar_view = new Adw.ToolbarView ();
         toolbar_view.add_top_bar (header);
         toolbar_view.content = decks_stack;
+        toolbar_view.add_bottom_bar (bottom_bar);
 
         var page = new Adw.NavigationPage (toolbar_view, "Flash Cards");
         page.tag = "decks";
