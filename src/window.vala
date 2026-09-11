@@ -40,7 +40,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         add_button.clicked.connect (add_deck);
 
         var header = new Adw.HeaderBar ();
-        header.pack_start (add_button);
+        header.pack_end (add_button);
 
         var empty_button = new Gtk.Button.with_label ("New Deck") {
             halign = Gtk.Align.CENTER,
@@ -55,15 +55,21 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             child = empty_button
         };
 
-        var deck_list = new Gtk.ListBox () {
+        var deck_flow = new Gtk.FlowBox () {
             selection_mode = Gtk.SelectionMode.NONE,
-            css_classes = { "boxed-list" }
+            homogeneous = false,
+            row_spacing = 8,
+            column_spacing = 8,
+            valign = Gtk.Align.START,
+            halign = Gtk.Align.FILL
         };
-        deck_list.row_activated.connect ((row) => {
-            open_deck (((DeckRow) row).deck);
-        });
-        deck_list.bind_model (manager.decks, (item) => {
-            return new DeckRow ((Deck) item);
+        deck_flow.bind_model (manager.decks, (item) => {
+            var deck = (Deck) item;
+            var chip = new DeckChip (deck);
+            chip.test_requested.connect (() => start_test (deck));
+            chip.edit_requested.connect (() => open_deck (deck));
+            chip.delete_requested.connect (() => confirm_delete_deck (deck));
+            return chip;
         });
 
         var list_page = new Gtk.ScrolledWindow () {
@@ -71,7 +77,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             vexpand = true,
             child = new Adw.Clamp () {
                 maximum_size = 520,
-                child = deck_list,
+                child = deck_flow,
                 margin_top = 12,
                 margin_bottom = 12,
                 margin_start = 12,
@@ -109,6 +115,14 @@ public class FlashCard.Window : Adw.ApplicationWindow {
         nav_view.push (build_deck_page (deck));
     }
 
+    private void start_test (Deck deck) {
+        if (deck.cards.get_n_items () == 0) {
+            notify_user ("Add a card before testing");
+            return;
+        }
+        nav_view.push (new TestPage (deck));
+    }
+
     private Adw.NavigationPage build_deck_page (Deck deck) {
         var add_card_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
             tooltip_text = "Add Card"
@@ -119,13 +133,7 @@ public class FlashCard.Window : Adw.ApplicationWindow {
             tooltip_text = "Draw random cards and quiz yourself",
             css_classes = { "suggested-action" }
         };
-        test_button.clicked.connect (() => {
-            if (deck.cards.get_n_items () == 0) {
-                notify_user ("Add a card before testing");
-                return;
-            }
-            nav_view.push (new TestPage (deck));
-        });
+        test_button.clicked.connect (() => start_test (deck));
 
         var deck_actions = new GLib.SimpleActionGroup ();
         var rename_action = new GLib.SimpleAction ("rename", null);
